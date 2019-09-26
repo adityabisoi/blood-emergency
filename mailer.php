@@ -23,23 +23,27 @@ else{
     $result=$conn->query($sql);
     if($result->num_rows>0)
         {
-            $row=$result->fetch_assoc();
+            while($row=$result->fetch_assoc()){
             $email=$row['email'];
+            sendMail($email);
+            }
         }
 
 }
 
 // Instantiation and passing `true` enables exceptions
-$mail = new PHPMailer(true);
 
-try {
+
+//try
+function sendMail($email) {
+    $mail = new PHPMailer(true);
     //Server settings
     $mail->SMTPDebug = 2;                                       // Enable verbose debug output
     $mail->isSMTP();                                            // Set mailer to use SMTP
     $mail->Host       = 'smtp.gmail.com';  // Specify main and backup SMTP servers
     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-    $mail->Username   = 'sender@gmail.com';                     // SMTP username
-    $mail->Password   = 'password';                               // SMTP password
+    $mail->Username   = 'adityabisoi1999@gmail.com';                     // SMTP username
+    $mail->Password   = 'Aditya@123';                               // SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption, `PHPMailer::ENCRYPTION_SMTPS` also accepted
     $mail->Port       = 587;                                    // TCP port to connect to
 
@@ -63,6 +67,7 @@ try {
 
     $mail->send();
     echo 'Message has been sent';
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
+//  catch (Exception $e) {
+//     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+// }
