@@ -22,8 +22,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <?php
 
-        $na=$em="";
-        $NameErr=$eMailErr="";
+        $na=$em=$gr="";
+        $NameErr=$eMailErr=$groupErr="";
         $status=true;
         if(!empty($_POST))
             {
@@ -45,6 +45,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $eMailErr="Cannot remain empty";
                     $status=false;
                 }
+                if(!empty($_POST["group"]))
+                    {
+                        $gr=$_POST["group"];
+                    }
+                else{
+                    $groupErr="Cannot remain empty";
+                    $status=false;
+                }
 
         //db connection
 
@@ -64,7 +72,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             if($status)
             {
                 
-                $sql=  "INSERT INTO login (name ,email) values('$na','$em') " ;
+                $sql=  "INSERT INTO login (name ,email, blood_group) values('$na','$em','$gr') " ;
                 if($conn->query($sql)){
                     header('Location: thank.html');
                 }
@@ -85,17 +93,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="main-agileinfo">
 			<div class="agileits-top">
 				<form action="#" method="post">
-                    <input class="text" type="text" name="name" placeholder="Name" required autofocus value=<?php echo $na;?>>
+                    <input class="text" type="text" name="name" placeholder="Name" required autofocus >
                     <p><?php echo $NameErr ?></p>
-                    <input class="text email" type="email" name="email" placeholder="Email" required value=<?php echo $em;?> >
+                    <input class="text email" type="email" name="email" placeholder="Email" required  >
                     <p><?php echo $eMailErr ?></p>
-                    
+                    <select name="group">
+                            <option >Choose blood group</option>
+                            <option value="ap">A+</option>
+                            <option value="an">A-</option>
+                            <option value="bp">B+</option>
+                            <option value="bn">B-</option>
+                            <option value="op">O+</option>
+                            <option value="on">O-</option>
+                            <option value="abp">AB+</option>
+                            <option value="abn">AB-</option>
+                    </select>
+                    <p><?php echo $groupErr ?></p>
 					<div class="wthree-text">
 						<div class="clear"> </div>
 					</div>
 					<input type="submit" value="SIGNUP">
 				</form>
-				<p>Sign up now to become a donor !</p>
+                <p><a href="receiver.php">Request blood</a></p>
+                
+                
 			</div>
 		</div>
 		<!-- //copyright -->
